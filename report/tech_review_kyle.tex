@@ -1,0 +1,138 @@
+\subsection{Problem Description}
+To deploy our software system we will need to specify the hardware that it will run on. Developing the software can be done on any system but when it is deployed there are characteristics of a device that would be more ideal then others.  In the sub sections below, I will look at different hardware and contrast the benefits and negatives of each device. In the end I will compare them all and discuss what the best option for the framework is.
+
+\subsection{Arduino Uno}
+\subsubsection{Overview}
+The Arduino Uno is a low powered open-source micro-controller that has a simple and straightforward development environment. It is great for developing stand-alone devices that control sensors or other hardware. \cite{ada}
+\subsubsection{Benefits}
+Arduinos are useful in that they are low-powered, cheap, and can do simple quick tasks. They have a robust development environment. There is a lot of information available to help troubleshoot potential problems that we could run into. They have a small form factor which is ideal for deploying our framework. These micro-controllers are ideal for interfacing with other hardware and executing the same task over and over again.
+\subsubsection{Negatives}
+The issue with using Arduino Uno for this project is that it does not come network ready. You need a separate Ethernet or wireless Ethernet board to enable this on an Arduino. It would add cost and software development time to add this capability. Also, an Arduino is limited to what programing languages can be used for development since it has a rigid development environment that forces a specific language. This device can not run an operating system and has a limited computational capacity. It is also just a micro-controller as opposed to a full computing system. \cite{ada}
+
+\subsection{Raspberry Pi 3 Model B}
+\subsubsection{Overview}
+A Raspberry Pi is a cheap, low powered, and cost effective replacement for having a full computer. It has all the abilities of a full computer but at a low-powered consumption level. \cite{rpi}
+\subsubsection{Benefits}
+Raspberry Pis can run an operating system, output video to a screen, output audio, and allow the connection of other peripherals.They have a small form factor that makes it ideal for frameworks like the one we are developing. The Pi can run a full Linux environment which will give us access to any programming language we want to use. By having a full operating system to develop gives us more options and tools to accomplish the tasks. It keeps our options more open and remove the limits of other hardware. Model B has a built in Ethernet and Wireless Ethernet which is necessary for our framework. \cite{rpi}
+\subsubsection{Negatives}
+An issue with using a Raspberry Pi is that we can find cheaper off brand ones that do the same thing. The problem with doing that is that Raspberry Pis all already low cost and the cost is not an issue to begin with. Another problem with using an off brand on is that there will be less documentation and there will be a greater risk of device failure.
+\subsection{Laptop}
+\subsubsection{Overview}
+I am defining a laptop as a computer that has a modern high speed processor, modern operating system, and built in screen, something that a typical person would consider a laptop.
+
+\subsubsection{Benefits}
+The benefits to having a full-fledged laptop would be that would could build and deploy the framework on the same machine. This would give us full network access and a high speed processor. By using a laptop we would have ultimate control over the environment we are in. We could use any operating system or run everything in a virtual machine. There would be no limits on programming languages or other libraries we could leverage to enhance our project. 
+\subsubsection{Negatives}
+The main issue with a laptop is that for deployment will need more then one device. The cost to have multiple laptops outweighs any benefits it would offer. It would also be a larger form factor then using a smaller micro-controller sized device. A laptop also adds another layer of complexity if we needed to deploy our framework to multiple laptop devices as opposed to deploying to a bunch of the same Raspberry Pis.
+
+\subsection{Comparison}
+\subsubsection{Comparison Table}
+\FloatBarrier
+\begin{table}[H]
+\fontsize{3}{4}\selectfont
+\centering
+\def\arraystretch{1.2}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|}
+\hline
+{} & \bf{Arduino Uno} & \bf{Raspberry Pi 3 Model B} & \bf{Laptop}\\ \hline
+Power  & 5v & 5v & No constraint \\ \hline
+Networking  & None  & Ethernet/Wifi & Ethernet/Wifi \\ \hline
+Sensors  & Digital/Analog Pins & GPIO Pins & None \\ \hline
+Operating System  & No & Yes & Yes \\ \hline
+Cost  & Cheap & Cheap & Expensive \\ \hline
+\end{tabular} }
+\newline\newline 
+\end{table}
+\subsubsection{Conclusion}
+After exploring the hardware options above, I have concluded that the best option for this project is going to be a Raspberry Pi. An Arduino is not the right pick because it is a straight up micro-controller. It is built to run simple physical tasks on repeat and is not equipped with an Ethernet card. It would cost more to equip each Arduino with the ability to network. This micro-controller is good from projects that do not require a lot of processing. Also the programming language that must be used is limited on an Arduino. You have to program in a specific Arduino IDE that requires the use of AVR C programming language. This is limiting and it is not necessary to limit ourselves to one language.
+\\ \\
+Having a full fledged laptop would be over kill for our deployment of the framework as well. It would not be cost effective and would require a lot more setup. Also a laptops larger form factor would be cumbersome for the deployment of the framework.
+\\ \\
+In the end the best option is going to be a Raspberry Pi. This device is low powered and cost effective. It comes equipped with Ethernet capabilities and a large amount of processing power compared to an Arduino. This device can run a full Linux environment which would not limit us to a specific programming language and give us more options all around in terms of design. The Raspberry Pi will give us a solid foundation in which to deploy our framework on.
+
+
+\subsection{Network Protocols}
+\subsection{Problem Description}
+The framework will need to have the ability to communicate with nodes in order to share resources. This communication needs to happen across physical distances using standard Internet protocols. Below the sub sections discuss the benefits of different network transport protocols we could use to solve this problem.
+\subsection{TCP}
+\subsubsection{Overview}
+TCP is a connection-oriented transport protocol that sends data as an unstructured stream of bytes.\cite{Cisco} This protocol information about packets transmitted to a destination node by using sequence numbers and acknowledgment messages. Loss data is retransmitted by TCP until all data has been retrieve successful or a timeout occurs. It can determine if a duplicate message has been sent and trash them. In this protocol there are mechanisms to control the flow of data and communicate with other layers to convey information. \cite{Cisco}
+
+\subsubsection{Benefits and Negatives}
+The main benefit to using TCP is that is reliable. We would be able to trust that every packet sent was sent correctly and error free. In our framework we will have to transfer files, using TCP would ensure that the files we transfer are not corrupted. 
+\\ \\
+A negative to using TCP is that we wont be able to multi cast. Being able to broadcast a message to multiple devices at once would be a benefit for our framework but TCP would not allow us to do that. Also TCP uses more bandwidth then other protocols which would be a negative to our framework if latency was an issue.
+
+\subsection{UDP}
+\subsubsection{Overview}
+UDP is a connectionless transport layer protocol that provides a basic and unreliable message service to interact between the IP and upper layers.\cite{kits} This protocol is capable of can identify by port the different applications running on a single device. UDP is not reliable in that is does not ensure that every byte of data will reach its destination. It contains no flow control or error recover but is has less network overhead. This is due to the protocol not having to make sure that every packet was received. All that error checking adds overhead which UDP does not have to deal with. \cite{kits}
+
+\subsubsection{Benefits and Negatives}
+Our framework would benefit from the lower network overhead that the UDP network protocol offers. UDP allows multi cast which would give our framework the ability to broadcast messages to multiple nodes at once. This ability would enhance our framework. The issue with using UDP for our framework is the unreliable data transfer. Our framework requires us to transfer data uncorrupted and by using UDP we would have no ability to ensure data was sent and received error free.
+
+\subsection{SCTP}
+\subsubsection{Overview}
+SCTP is a not well known transport layer protocol. It is similar to TCP in that it is reliable, confirming that data is received in order and with no errors. This protocol is message oriented like UDP and not byte oriented like TCP. Unlike TCP this protocol is session oriented and ensures a relationship between only two endpoints before data is sent, this adds an extra layer of security to this protocol. The main difference that SCTP was trying to achieve over TCP is removing some of the limitations that TCP has. \cite{realtime}
+
+\subsubsection{Benefits and Negatives}
+The benefits and negatives of SCTP are similar to the benefits and negatives of TCP. SCTP only added benefits over just using TCP is its added security. But there are not requirements for having extra security over what any of the other more known protocols offer.
+
+\subsection{Comparison}
+\subsubsection{Comparison Table}
+\FloatBarrier
+\begin{table}[H]
+\fontsize{3}{4}\selectfont
+\centering
+\def\arraystretch{1.2}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|}
+\hline
+{} & \bf{TCP/IP} & \bf{UDP} & \bf{SCTP}\\ \hline
+Reliable  & Yes & No & Yes \\ \hline
+Transmission & Bytes  & Message & Message \\ \hline
+Security & Yes & Yes & Yes \\ \hline
+Data  & Strictly Ordered & Not Ordered & Partially Ordered \\ \hline
+Connection  & Specified & Connectionless & Specified \\ \hline
+\end{tabular} }
+\newline\newline 
+\end{table}
+\subsubsection{Conclusion}
+All of the above network protocols all have their advantages and disadvantages. TCP is useful because it is reliable and ensures data is correct and error free. UDP is also useful because it has a lower overhead and is best in situations where reliability is not needed. Lastly SCTP helps to fix some of the limitations with TCP but it is not as known and would not add any extra benefits for our framework over just using TCP.
+\\ \\
+This framework will require that all data is transported successfully without error. It does not require fast transmission rate or have limits on bandwidth. UDP does not satisfy the requirements of what our framework will need and thus is not a good choice. SCTP will also not make a good choice because it is not as wide spread and has no benefits over TCP when it comes to this framework. 
+\\ \\
+It seems that TCP would be the best choice when it comes to network communication protocols for our framework. The protocol allows for a reliable connection that will ensure that all packets are successful and error free. In the end TCP is suited for the needs of our framework.
+
+
+
+\subsection{Parallel Programming Models}
+\subsection{Problem Description}
+The software framework that we are building needs allow the sharing of resources and processes. One way we could allow this sharing is through parallel programming. In the sub sections below I will discuss the different models of parallel programming, how they compare to each other, and which one might be most suited for our framework.
+
+\subsection{Shared Memory}
+\subsubsection{Overview}
+There are two different implementations of a shared memory parallel programming model. In the non-threaded model processes and tasks read and write asynchronously to common address space. Semaphores are a must in a non-threaded shared memory model in order to prevent race conditions and deadlocks. \cite{PP}
+\\ \\
+The other implementation of a shared memory parallel programming model is the threaded model. This model has a single process that contains more then one concurrent execution path. For this framework I will be focusing on the threaded model of the shared memory parallel programming model. \cite{PP}
+\subsubsection{Benefits and Implementations}
+The benefits of using a threaded shared memory model is that each concurrent thread will share the resources of the "master" process. All threads share a global memory. This helps us solve the problem of our framework needing to share resources. Each thread will also have its own local data. \cite{PP}
+\\ \\
+There are two standardized implementations of the shared memory parallel programming model, POSIX Threads and OpenMP. The POSIX thread model is a c language implementation integrated into Unix operating systems, it is very explicit parallelism. OpenMP is a portable and multi-platform model that can be used on a wider variety of systems. Instead of explicit parallelism, OpenMP provides incremental parallelism. Our framework would benefit more from the OpenMP shared memory parallel programming model because of its portable and multi-platform model that allows it to be used on a wider variety of systems. \cite{PP}
+
+\subsection{Message Passing}
+\subsubsection{Overview}
+In the message passing model, there is a set of tasks that have their own computation memory. These multiple tasks can be located on the same physical device or spread across multiple devices. The tasks just the sending and receiving of messages as a way to communicate. This transferring of data requires each tasks process to cooperative in order to share data, thus a send must always have a receive. \cite{PP}
+\subsubsection{Benefits and Implementations}
+The message passing model has only a few benefits for our framework. Since it is a parallel programming model it will allow the sharing of resources and contains built in structures for the sending and receiving of data. Another benefit is that this model has been packaged into a standardized form call MPI. This MPI platform is available for a wide variety of systems and portable to lots of devices. \cite{PP}
+
+\subsection{Data Parallel}
+\subsubsection{Overview}
+This model is also refereed to as the Partitioned Global Address Space (PGAS) model.\cite{PP} In this model the address space is global and most of the parallel work focuses on doing operations on a data set. Data parallel has tasks that work collectively on the same data structure but each task is assigned to a different partition of that global data structure. \cite{PP}
+\subsubsection{Benefits and Implementations}
+This model does not offer any benefits for our framework. It is mainly used to run operations on large data sets. More commonly used implementations of this model are written in Fortran. Most implementations are in the developmental phase and would require a lot of research just to get up and running with them. \cite{PP}
+
+\subsection{Comparison}
+\subsubsection{Conclusion}
+After exploring the parallel programming models above it became clear to me which would be the best option for our framework. The shared parallel programming model offers the most benefits to the implementation of our framework. Its threaded model fits the needs of our framework to share resources. This OpenMP library that implements the threaded shared memory parallel programming model is wide spread and available on variety of hardware. Since this library is more wide spread and it has more support and documentation which would ease in the development. The OpenMP would give us more options and not limits us. In the end the best option for parallel programming models is the shared parallel programming model using the OpenMP library.
+
